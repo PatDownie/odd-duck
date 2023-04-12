@@ -1,0 +1,42 @@
+#product-image-section {
+  display: flex;
+}
+h1 {
+  font-family: sans-serif;
+  font-size: 5rem;
+  text-align: center;
+  padding: 2rem;
+  color: rgb(202, 50, 50);
+  background-color: rgb(36, 53, 19);
+}
+
+img {
+  padding: 16px;
+  background-color: antiquewhite;
+  animation-duration: 0.2s;
+  animation-iteration-count: infinite;
+}
+img:hover {
+  animation-name: animation;
+}
+@keyframes animation {
+  0% {
+    background-color: antiquewhite;
+  }
+  50% {
+    background-color: red;
+  }
+  100% {
+    background-color: antiquewhite;
+  }
+}
+section.voting-over img:hover {
+  animation-name: none;
+}
+table {
+  border: 2px solid black;
+}
+td {
+  padding: 0.25em;
+  border: 2px solid black;
+}
