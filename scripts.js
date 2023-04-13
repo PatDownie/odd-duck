@@ -43,22 +43,25 @@ let img2 = document.getElementById("img2");
 let img3 = document.getElementById("img3");
 
 let renderCounter = 0;
-let maximumVotesAllowed = 25;
-
+let maximumVotesAllowed = 5;
+let previousProductArray = [];
 function renderThreeImages() {
   if (renderCounter >= maximumVotesAllowed) {
     alert("voting is over! Check the scores!");
     productImageSection.removeEventListener("click", actionOnVote);
     productImageSection.className = "voting-over";
-    renderResults();
+    renderChart();
   } else {
     let product1 = randomMinMax(0, productArray.length);
+    while (previousProductArray.includes(product1)) {
+      product1 = randomMinMax(0, productArray.length);
+    }
     let product2 = randomMinMax(0, productArray.length);
-    while (product1 == product2) {
+    while (product1 == product2 || previousProductArray.includes(product2)) {
       product2 = randomMinMax(0, productArray.length);
     }
     let product3 = randomMinMax(0, productArray.length);
-    while (product3 == product1 || product3 == product2) {
+    while (product3 == product1 || product3 == product2 || previousProductArray.includes(product3)) {
       product3 = randomMinMax(0, productArray.length);
     }
     console.log(product1, product2, product3);
@@ -72,6 +75,8 @@ function renderThreeImages() {
     img3.src = productArray[product3].filePath;
     img3.alt = productArray[product3].name;
     productArray[product3].viewCount++;
+
+    previousProductArray = [product1, product2, product3];
 
     renderCounter++;
     console.log("rendercounter: " + renderCounter);
@@ -90,43 +95,77 @@ function actionOnVote(event) {
   renderThreeImages();
 }
 
-function renderResults() {
-  let table = document.querySelector("table");
-  let newRow = document.createElement("tr");
-  table.appendChild(newRow);
-  let newCell = document.createElement("td");
-  newCell.textContent = "Product";
-  newRow.appendChild(newCell);
-  newCell = document.createElement("td");
-  newCell.textContent = "View Count";
-  newRow.appendChild(newCell);
-  newCell = document.createElement("td");
-  newCell.textContent = "Vote Count";
-  newRow.appendChild(newCell);
-  newCell = document.createElement("td");
-  newCell.textContent = "Percentage of rounds won";
-  newRow.appendChild(newCell);
+// function renderResults() {
+//   let table = document.querySelector("table");
+//   let newRow = document.createElement("tr");
+//   table.appendChild(newRow);
+//   let newCell = document.createElement("td");
+//   newCell.textContent = "Product";
+//   newRow.appendChild(newCell);
+//   newCell = document.createElement("td");
+//   newCell.textContent = "View Count";
+//   newRow.appendChild(newCell);
+//   newCell = document.createElement("td");
+//   newCell.textContent = "Vote Count";
+//   newRow.appendChild(newCell);
+//   newCell = document.createElement("td");
+//   newCell.textContent = "Percentage of rounds won";
+//   newRow.appendChild(newCell);
+//   for (let i = 0; i < productArray.length; i++) {
+//     let newRow = document.createElement("tr");
+//     table.appendChild(newRow);
+//     let newCell = document.createElement("td");
+//     newCell.textContent = productArray[i].name;
+//     newRow.appendChild(newCell);
+//     newCell = document.createElement("td");
+//     newCell.textContent = productArray[i].viewCount;
+//     newRow.appendChild(newCell);
+//     newCell = document.createElement("td");
+//     newCell.textContent = productArray[i].voteCount;
+//     newRow.appendChild(newCell);
+//     newCell = document.createElement("td");
+//     if (productArray[i].viewCount == 0) {
+//       newCell.textContent = "not seen!";
+//     } else {
+//       newCell.textContent = Math.floor((productArray[i].voteCount / productArray[i].viewCount) * 100) + "%";
+//     }
+//     newRow.appendChild(newCell);
+//   }
+// }
+
+function renderChart() {
+  const nameArray = [];
+  const votesArray = [];
+  const viewsArray = [];
+
   for (let i = 0; i < productArray.length; i++) {
-    let newRow = document.createElement("tr");
-    table.appendChild(newRow);
-    let newCell = document.createElement("td");
-    newCell.textContent = productArray[i].name;
-    newRow.appendChild(newCell);
-    newCell = document.createElement("td");
-    newCell.textContent = productArray[i].viewCount;
-    newRow.appendChild(newCell);
-    newCell = document.createElement("td");
-    newCell.textContent = productArray[i].voteCount;
-    newRow.appendChild(newCell);
-    newCell = document.createElement("td");
-    if (productArray[i].viewCount == 0) {
-      newCell.textContent = "not seen!";
-    } else {
-      newCell.textContent = Math.floor((productArray[i].voteCount / productArray[i].viewCount) * 100) + "%";
-    }
-    newRow.appendChild(newCell);
+    nameArray.push(productArray[i].name);
+    votesArray.push(productArray[i].voteCount);
+    viewsArray.push(productArray[i].viewCount);
   }
+
+  const myChart = document.getElementById("myChart");
+  new Chart(myChart, {
+    type: "bar",
+    data: {
+      labels: nameArray,
+      datasets: [
+        {
+          label: "views",
+          data: viewsArray,
+          backgroundColor: "#9F0D3D",
+        },
+        {
+          label: "votes",
+          data: votesArray,
+          backgroundColor: "#A78DA4",
+        },
+      ],
+    },
+  });
 }
+
+renderThreeImages();
 
 let productImageSection = document.getElementById("product-image-section");
 productImageSection.addEventListener("click", actionOnVote);

@@ -1,19 +1,51 @@
+* {
+  box-sizing: border-box;
+}
 #product-image-section {
   display: flex;
 }
+body {
+  background-color: #e2964b;
+}
+header {
+  background-color: #9f0d3d;
+  margin-bottom: 0.5rem;
+}
 h1 {
-  font-family: sans-serif;
+  font-family: "Sedgwick Ave Display", cursive;
   font-size: 5rem;
   text-align: center;
   padding: 2rem;
-  color: rgb(202, 50, 50);
-  background-color: rgb(36, 53, 19);
+  color: #e2964b;
+  background-color: #9f0d3d;
+}
+header p {
+  font-family: "Chivo Mono", monospace;
+  font-size: 2rem;
+  color: #e2964b;
+  text-align: center;
+  padding-bottom: 2rem;
+}
+h1,
+header p {
+  text-shadow: 0.1em 0.1em black;
+}
+section {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
 }
 
 img {
+  max-width: 30%;
+  height: auto;
   padding: 16px;
-  background-color: antiquewhite;
-  animation-duration: 0.2s;
+  margin: 1rem;
+  border-radius: 16px;
+  box-shadow: 1rem 1rem #a06b35;
+  background-color: #a78da4;
+  animation-duration: 0.8s;
   animation-iteration-count: infinite;
 }
 img:hover {
@@ -21,22 +53,36 @@ img:hover {
 }
 @keyframes animation {
   0% {
-    background-color: antiquewhite;
+    background-color: #a78da4;
+    box-shadow: 1rem 1rem #a06b35;
+    transform: scale(1);
   }
   50% {
     background-color: red;
+    box-shadow: 1.5rem 1.5rem #a06b35;
+    transform: scale(1.1);
   }
   100% {
-    background-color: antiquewhite;
+    background-color: #a78da4;
+    box-shadow: 1rem 1rem #a06b35;
+    transform: scale(1);
   }
 }
 section.voting-over img:hover {
   animation-name: none;
 }
+button {
+  margin: 1rem auto;
+}
 table {
+  margin: 1rem;
   border: 2px solid black;
 }
 td {
   padding: 0.25em;
   border: 2px solid black;
+}
+#table-div {
+  max-width: 90%;
+  margin: 0 auto;
 }
