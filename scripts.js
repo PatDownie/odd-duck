@@ -134,6 +134,8 @@ function actionOnVote(event) {
 // }
 
 function renderChart() {
+  let tableDiv = document.getElementById("table-div");
+  tableDiv.className = "visible";
   const nameArray = [];
   const votesArray = [];
   const viewsArray = [];
