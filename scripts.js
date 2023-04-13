@@ -43,7 +43,7 @@ let img2 = document.getElementById("img2");
 let img3 = document.getElementById("img3");
 
 let renderCounter = 0;
-let maximumVotesAllowed = 5;
+let maximumVotesAllowed = 25;
 let previousProductArray = [];
 function renderThreeImages() {
   if (renderCounter >= maximumVotesAllowed) {
