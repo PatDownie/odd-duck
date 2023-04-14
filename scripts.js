@@ -92,6 +92,7 @@ function actionOnVote(event) {
       break;
     }
   }
+  saveVoteData();
   renderThreeImages();
 }
 
@@ -133,6 +134,8 @@ function actionOnVote(event) {
 //   }
 // }
 
+let globalChart;
+
 function renderChart() {
   let tableDiv = document.getElementById("table-div");
   tableDiv.className = "visible";
@@ -147,7 +150,10 @@ function renderChart() {
   }
 
   const myChart = document.getElementById("myChart");
-  new Chart(myChart, {
+
+  globalChart?.destroy();
+
+  globalChart = new Chart(myChart, {
     type: "bar",
     data: {
       labels: nameArray,
@@ -171,3 +177,33 @@ renderThreeImages();
 
 let productImageSection = document.getElementById("product-image-section");
 productImageSection.addEventListener("click", actionOnVote);
+
+function saveVoteData() {
+  let savedVotes = JSON.stringify(productArray);
+  localStorage.setItem("vote data", savedVotes);
+  console.log(savedVotes);
+  console.log(productArray);
+}
+function loadVoteData() {
+  if (localStorage.getItem("vote data") !== null) {
+    productArray = JSON.parse(localStorage.getItem("vote data"));
+    console.log(productArray);
+  }
+}
+function clearLocalStorage() {
+  localStorage.clear();
+  for (let i = 0; i < productArray.length; i++) {
+    productArray[i].viewCount = 0;
+    productArray[i].voteCount = 0;
+  }
+  if (renderCounter >= maximumVotesAllowed) {
+    renderChart();
+    alert("Local storage cleared, refresh page.");
+  } else {
+    alert("Local storage cleared, refresh page.");
+    productImageSection.removeEventListener("click", actionOnVote);
+    productImageSection.className = "voting-over";
+  }
+}
+
+loadVoteData();
